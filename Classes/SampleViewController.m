@@ -15,35 +15,64 @@
 
 #import "SampleViewController.h"
 #import "PFSphereView.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation SampleViewController
 
 
 - (void)viewDidLoad {
-	self.view.backgroundColor = [UIColor blackColor];
+	self.view.backgroundColor = [UIColor yellowColor];
 
-	PFSphereView *sphereView = [[PFSphereView alloc] initWithFrame:CGRectMake(10, 60, 300, 300)];
+	PFSphereView *sphereView = [[PFSphereView alloc] initWithFrame:self.view.frame];
 
 	NSMutableArray *labels = [[NSMutableArray alloc] init];
-	for (int i = 0; i < 50; i++) {
-		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-		label.backgroundColor = [UIColor clearColor];
-		label.textColor = [UIColor whiteColor];
-		label.font = [UIFont systemFontOfSize:13];
-		label.text = [NSString stringWithFormat:@"Label %i", i];
-		[labels addObject:label];
-		[label release];
+	for (int i = 0; i < 15; i++) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        
+        [[button layer] setBorderColor: [[UIColor blackColor] CGColor]];
+        [[button layer] setBorderWidth:2.75];
+        
+        button.frame = CGRectMake(0, 0, 80, 80);
+		button.backgroundColor = [UIColor redColor];
+		button.titleLabel.textColor = [UIColor blackColor];
+		button.titleLabel.font = [UIFont systemFontOfSize:13];
+		button.titleLabel.text = [NSString stringWithFormat:@"Label %i", i];
+
+		[labels addObject:button];
+        
+        [button addTarget:self action:@selector(processTouch:) forControlEvents:UIControlEventTouchUpInside];
 	}
 
 	[sphereView setItems:labels];
 
-	[labels release];
 
 	[self.view addSubview:sphereView];
-	[sphereView release];
 	
 	[super viewDidLoad];
 }
 
+
+-(void)processTouch:(id) sender {
+    UIButton *button = (UIButton*)sender;
+    [button setBackgroundColor:[UIColor brownColor]];
+    
+    [UIView animateWithDuration:0.5
+                     animations:^{
+                         CGRect frame = button.frame;
+                         frame.size.height = self.view.frame.size.height - 350;
+                         frame.size.width = self.view.frame.size.width - 350;
+                         
+                         int x = self.view.frame.size.width - frame.size.width;
+                         int y = self.view.frame.size.height - frame.size.height;
+                         
+                         frame.origin.x = x/2;
+                         frame.origin.x = y/2;
+                         
+                         button.frame = frame;
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];   
+}
 
 @end

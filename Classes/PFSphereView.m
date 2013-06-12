@@ -31,26 +31,26 @@
 		UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
 		panRecognizer.minimumNumberOfTouches = 1;
 		[self addGestureRecognizer:panRecognizer];
-		[panRecognizer release];
+
 		
 		UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchGesture:)];
 		[self addGestureRecognizer:pinchRecognizer];
-		[pinchRecognizer release];
+
 		
 		UIRotationGestureRecognizer *rotationRecognizer = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(handleRotationGesture:)];
 		[self addGestureRecognizer:rotationRecognizer];
-		[rotationRecognizer release];
+
 		
 		UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
 		tapRecognizer.numberOfTapsRequired = 1;
 		[self addGestureRecognizer:tapRecognizer];
-		[tapRecognizer release];
+
     }
     return self;
 }
 
 - (void)setItems:(NSArray *)items {
-	[pointMap release];
+
 	pointMap = [[NSMutableDictionary alloc] init];
 	
 	NSArray *spherePoints = [PFGoldenSectionSpiral sphere:items.count];
@@ -67,7 +67,7 @@
 		[pointMap setObject:pointRep forKey:[NSNumber numberWithInt:i]];
 	}
 	
-	[self rotateSphereByAngle:1 fromPoint:CGPointMake(0, 0) toPoint:CGPointMake(0, 1)];
+	[self rotateSphereByAngle:3 fromPoint:CGPointMake(0, 0) toPoint:CGPointMake(0, 1)];
 }
 
 - (void)setFrame:(CGRect)pFrame {
@@ -112,7 +112,7 @@
 			previousLocationInView = touchPoint;
 			
 			// Sphere rotation
-			[self rotateSphereByAngle:1 fromPoint:normalizedOriginalTouchPoint toPoint:normalizedTouchPoint];
+			[self rotateSphereByAngle:3 fromPoint:normalizedOriginalTouchPoint toPoint:normalizedTouchPoint];
 		}
 			
 			break;
@@ -278,11 +278,6 @@
 	}		
 }
 
-- (void)dealloc {
-	[pointMap release];
-	
-    [super dealloc];
-}
 
 
 @end
